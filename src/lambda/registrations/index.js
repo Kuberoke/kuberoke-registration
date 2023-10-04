@@ -9,7 +9,7 @@ const handler = async (event, context) => {
   let statusCode = 200
   const dt = + new Date
 
-  const body = JSON.parse(event.body)
+  const body = event.body
 
   const code = body.code?.toUpperCase()
 
@@ -40,11 +40,11 @@ const handler = async (event, context) => {
   if (body.email && body.name) {
     if (code) {
       if (parseInt(process.env[`TICKET_CODE_${code}`], 10) > 0) {
-        const res = await lambda.getFunctionConfiguration({FunctionName: "APIGW-endpoint-reservation"}).promise()
+        const res = await lambda.getFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg"}).promise()
 
         const envVars = res.Environment.Variables
         envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) - 1).toString()
-        await lambda.updateFunctionConfiguration({FunctionName: "APIGW-endpoint-reservation", Environment: { Variables: envVars }}).promise()
+        await lambda.updateFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg", Environment: { Variables: envVars }}).promise()
 
         params.ExpressionAttributeNames['#c'] = "code"
         params.ExpressionAttributeValues[':c'] = { S: code }

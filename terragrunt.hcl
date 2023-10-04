@@ -30,7 +30,7 @@ remote_state {
 
   config = {
     encrypt = true
-    bucket = "kuberoke-terraform-state"
+    bucket = "kuberoke-chi-23-terraform-state"
     key = "${path_relative_to_include()}/terraform.tfstate"
     region = "${local.env.aws_region}"
     dynamodb_table = "kuberoke-terraform-state-lock"
