@@ -15,6 +15,7 @@
 
 ## TODOs
 
+- BUGFIX hard coded URI in lambdas
 - configure key pair for signing QR codes
 - re-enable disabled API endpoints
 - re-enable disabled QR code generation
@@ -22,3 +23,23 @@
 - improve user auth for static front end
 - replace env vars hack for ticket code availability with something more robust
 - check if new code also suffers from encoding issue for QR payload and fix if necessary
+
+## QR code contents
+
+```
+{
+  email,          # as entered by the user
+  name,           # as entered by the user
+  code,           # as entered by the user, UPPERCASED
+  timestamp,      # ms since epoch when user sent invitation confirmation by the system, probably want to use Date(timestamp)
+  qrsentat,       # ms since epoch when user was sent a QR code by the system, probably want to use Date(qrsentat)
+  minutestoarrive,# integer, the user was supposed to arrive within minutestoarrive from when the system sent out their QR code 
+  signature       # cryptographic signature, use a public key to verify the rest of the data in the QR code with this signature
+}
+```
+
+## Viewing front end
+
+Use something like `npx http-server -S -a 0.0.0.0` to host the `index.html` file in `src/website` in an https context.
+
+Check the `TODO`s in the file for pointers on what needs updating (scanning doesn't strictly require any of the values, but signature verification requires the pub key for the private key that generated the signature).
