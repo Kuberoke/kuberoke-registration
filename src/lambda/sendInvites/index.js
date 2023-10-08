@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const dynamo = new AWS.DynamoDB.DocumentClient();
 
 const TableName = process.env.TABLENAME
-const EventStartTime = process.env.EVENT_START_TS
+const EventStartTime = parseInt(process.env.EVENT_START_TS, 10)
 const defaultMinutesToArrive = process.env.DEFAULT_TIME_TO_ARRIVE
 
 const getData = async ExclusiveStartKey => {
