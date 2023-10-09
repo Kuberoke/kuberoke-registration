@@ -42,19 +42,11 @@ const handler = async (event, context) => {
   if (body.email && body.name) {
     if (code) {
       if (parseInt(process.env[`TICKET_CODE_${code}`], 10) > 0) {
-<<<<<<< HEAD
-        const res = await lambda.getFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg"}).promise()
-
-        const envVars = res.Environment.Variables
-        envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) - 1).toString()
-        await lambda.updateFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg", Environment: { Variables: envVars }}).promise()
-=======
         const res = await lambda.getFunctionConfiguration({FunctionName: context.functionName }).promise()
 
         const envVars = res.Environment.Variables
         envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) - 1).toString()
         await lambda.updateFunctionConfiguration({FunctionName: context.functionName, Environment: { Variables: envVars }}).promise()
->>>>>>> terragrunt_setup
 
         params.ExpressionAttributeNames['#c'] = "code"
         params.ExpressionAttributeValues[':c'] = { S: code }
@@ -81,19 +73,11 @@ const handler = async (event, context) => {
     if (e.code === 'ConditionalCheckFailedException') {
       message = "This email is already registered."
       if (code && parseInt(process.env[`TICKET_CODE_${code}`], 10) >= 0) {
-<<<<<<< HEAD
-        const res = await lambda.getFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg"}).promise()
-
-        const envVars = res.Environment.Variables
-        envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) + 1).toString()
-        await lambda.updateFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg", Environment: { Variables: envVars }}).promise()
-=======
         const res = await lambda.getFunctionConfiguration({FunctionName: context.functionName}).promise()
 
         const envVars = res.Environment.Variables
         envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) + 1).toString()
         await lambda.updateFunctionConfiguration({FunctionName: context.functionName, Environment: { Variables: envVars }}).promise()
->>>>>>> terragrunt_setup
       }
     }
   }
