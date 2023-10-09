@@ -9,7 +9,7 @@ const handler = async (event, context) => {
   let statusCode = 200
   const dt = + new Date
 
-  const body = event.body
+  const body = JSON.parse(event.body)
 
   const code = body.code?.toUpperCase()
 
@@ -60,6 +60,8 @@ const handler = async (event, context) => {
     }
   }
 
+  console.log(params)
+
   try {
     if (statusCode == 200) await dynamodb.updateItem(params).promise()
   } catch (e) {
@@ -69,11 +71,11 @@ const handler = async (event, context) => {
     if (e.code === 'ConditionalCheckFailedException') {
       message = "This email is already registered."
       if (code && parseInt(process.env[`TICKET_CODE_${code}`], 10) >= 0) {
-        const res = await lambda.getFunctionConfiguration({FunctionName: "APIGW-endpoint-reservation"}).promise()
+        const res = await lambda.getFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg"}).promise()
 
         const envVars = res.Environment.Variables
         envVars[`TICKET_CODE_${code}`] = (parseInt(process.env[`TICKET_CODE_${code}`], 10) + 1).toString()
-        await lambda.updateFunctionConfiguration({FunctionName: "APIGW-endpoint-reservation", Environment: { Variables: envVars }}).promise()
+        await lambda.updateFunctionConfiguration({FunctionName: "kuberoke-kc-2023-chi-api-reg", Environment: { Variables: envVars }}).promise()
       }
     }
   }
