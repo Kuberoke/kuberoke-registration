@@ -171,8 +171,7 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
   const verifySignature = async (signature, data) => {
     return await crypto.subtle.verify({
           name: "RSASSA-PKCS1-v1_5"
-        }, pubKey, str2ab(atob(signature)), str2ab(data))
-
+        }, pubKey, str2ab(atob(signature)), new TextEncoder("utf-8").encode(data))
   }
 
   function onScanSuccess(decodedText, decodedResult) {

@@ -1,19 +1,31 @@
 import { default as sgMail } from '@sendgrid/mail'
 import * as qr from 'qrcode'
 import * as crypto from 'crypto'
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager"
+import texts from "./texts.json" assert { type: "json" }
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+const client = new SecretsManagerClient()
+
+const command = new GetSecretValueCommand({
+  SecretId: process.env.SECRET_ID
+})
+
+const response = await client.send(command)
+const PRIVATE_KEY = JSON.parse(response.SecretString).PRIVATE_KEY
 
 const sendConfirmationEmail = async (data) => {
   const msg = {
     to: data.email,
-    from: 'registration@mail.kuberoke.love',
-    subject: 'Your registration for Kuberoke',
-    text: 'You have successfully registered for Kuberoke!',
-    html: '<p>You have successfully registered for Kuberoke!</p>'
+    from: texts.confirmation.sender,
+    subject: texts.confirmation.subject,
+    text: texts.confirmation.textContent,
+    html: texts.confirmation.htmlContent
   }
 
   try {
+    console.log(`sending confirmation to ${data.email}`)
     await sgMail.send(msg)
     return
   } catch (error) {
@@ -26,35 +38,35 @@ const sendConfirmationEmail = async (data) => {
 }
 
 const sendQr = async (data) => {
-  qr.toDataURL(JSON.stringify(data), async (err, url) => {
-    const msg = {
-      to: data.email,
-      from: 'registration@mail.kuberoke.love',
-      subject: 'QR code for kuberoke',
-      text: 'Here’s an attachment for you!',
-      html: '<p>Here’s an attachment for you!</p>',
-      attachments: [
-        {
-          content: url.split(',')[1],
-          filename: 'qrcode.png',
-          type: 'image/png',
-          disposition: 'attachment',
-          content_id: 'qrcode'
-        },
-      ],
-    }
+  const url = await qr.toDataURL(JSON.stringify(data))
+  const msg = {
+    to: data.email,
+    from: texts.invitation.sender,
+    subject: texts.invitation.subject,
+    text: texts.invitation.textContent,
+    html: texts.invitation.htmlContent,
+    attachments: [
+      {
+        content: url.split(',')[1],
+        filename: 'qrcode.png',
+        type: 'image/png',
+        disposition: 'attachment',
+        content_id: 'qrcode'
+      },
+    ],
+  }
 
-    try {
-      await sgMail.send(msg)
-      return
-    } catch (error) {
-      console.error(error)
+  try {
+    console.log(`sending QR code to ${data.email}`)
+    await sgMail.send(msg)
+    return
+  } catch (error) {
+    console.error(error)
 
-      if (error.response) {
-        console.error(error.response.body)
-      }
+    if (error.response) {
+      console.error(error.response.body)
     }
-  })
+  }
 }
 
 export const handler = async (event, context) => {
@@ -75,27 +87,16 @@ export const handler = async (event, context) => {
     }
 
     if (qrsentat !== undefined && qrsentatBefore === undefined) {
-      // TODO use key pair from secrets manager or via env var
-      // const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
-      //   modulusLength: 512,
-      // });
+      const payload = JSON.stringify(data);
 
-      // const payload = JSON.stringify(data);
+      const signature = crypto.sign("sha256", Buffer.from(payload, 'utf-8'), {
+        key: PRIVATE_KEY.split('\\n').join('\n'),
+        padding: crypto.constants.RSA_PKCS1_PADDING,
+      });
 
-      // const signature = crypto.sign("sha256", Buffer.from(payload, 'utf-8'), {
-      //   key: privateKey,
-      //   padding: crypto.constants.RSA_PKCS1_PADDING,
-      // });
+      data.signature = signature.toString('base64')
 
-      // data.signature = signature.toString('base64')
-
-      // console.log(publicKey.export({format: 'pem', type: 'spki'}))
-
-      // console.log(privateKey.export({type:'pkcs8', format: 'pem'}))
-
-      // console.log(publicKey.asymmetricKeyDetails)
-
-      // return sendQr(data)
+      return sendQr(data)
     } else if (newEmail !== undefined && oldEmail === undefined) {
       return sendConfirmationEmail(data)
     }
