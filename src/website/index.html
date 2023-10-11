@@ -1,4 +1,4 @@
-PU<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -43,8 +43,10 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
 (async () => {
   let allGuests
 
-  // TODO update your ticket codes here
+  // TODO update your ticket codes here, keep undefined for no ticket code case
   const ticketCodes = ['ALABS_CHI_23', 'HONEYCOMB_CHI_23', 'CHAINGUARD_CHI_23', 'CONTROLPLANE_CHI_23', 'FRIENDS_OF_KUBEROKE', undefined]
+    // TODO add API GW api key here
+  const API_KEY = ''
 
   document.querySelector('#invite').addEventListener('submit', async e => {
     e.preventDefault()
@@ -60,7 +62,7 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
     }
 
     if (e.submitter.id == 'send') {
-      // TODO add ID here
+        // TODO add ID and STAGE (e.g. kuberoke-test-prod) here
       const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/prod/invite', {
         method: "POST",
         mode: "cors",
@@ -84,7 +86,7 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
   })
 
   const loadGuestList = async () => {
-    // TODO add ID here
+      // TODO add ID and STAGE (e.g. kuberoke-test-prod) here
     const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/prod/reservation', {
         method: "GET",
         mode: "cors",
