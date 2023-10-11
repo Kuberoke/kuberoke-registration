@@ -17,11 +17,11 @@
 - put the private key into the secret inside AWS secrets manager (`kuberoke-[event]-keypair`, format: `{"PRIVATE_KEY":"[value from script in previous step]"}` - make sure when copying the value you don't copy any extra characters! The key should not contain spaces and the linebreaks should be replaced by `\n` in the value
 `)
 - fill in the other missing values in `website/index.html` (search for 'TODO')
+- set a basic auth verification value in `website/auth-function.js`
 
 ## TODOs
 
 - support placeholders in email text
-- add Cloudfront distribution
 - improve user auth for static front end
 - replace env vars hack for ticket code availability with something more robust
 
