@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+PU<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -44,7 +44,7 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
   let allGuests
 
   // TODO update your ticket codes here
-  const ticketCodes = ['ORGA_MTFCK', 'SPO_AMB_SJYMD', 'SPO_CHA_AQUEK', 'SPO_CON_KGAFS', 'SPO_IA_JYOIE', 'FRIENDS_OF_KUBEROKE', undefined]
+  const ticketCodes = ['ALABS_CHI_23', 'HONEYCOMB_CHI_23', 'CHAINGUARD_CHI_23', 'CONTROLPLANE_CHI_23', 'FRIENDS_OF_KUBEROKE', undefined]
 
   document.querySelector('#invite').addEventListener('submit', async e => {
     e.preventDefault()
@@ -61,13 +61,13 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
 
     if (e.submitter.id == 'send') {
       // TODO add ID here
-      const response = await fetch('https://[ID_HERE].execute-api.eu-west-1.amazonaws.com/prod/invite', {
+      const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/prod/invite', {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": "rSeHle69ZTqcrKRHjMjD1glytXPWONc2to4YKi7h"
+          "X-API-Key": "PT12exaJmq2y6e7quAguA3QGPGa7GNv01wDJjtal"
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
@@ -85,14 +85,14 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
 
   const loadGuestList = async () => {
     // TODO add ID here
-    const response = await fetch('https://[ID_HERE].execute-api.eu-west-1.amazonaws.com/prod/reservation', {
+    const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/prod/reservation', {
         method: "GET",
         mode: "cors",
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
           // TODO add API key here
-          "X-API-Key": "XXX"
+    "X-API-Key": "PT12exaJmq2y6e7quAguA3QGPGa7GNv01wDJjtal"
         },
         redirect: "follow",
         referrerPolicy: "no-referrer"
@@ -129,7 +129,8 @@ var __Html5QrcodeLibrary__;(()=>{var t={449:function(t,e,r){!function(t){"use st
 
   // TODO add public key here
   const publicKey = `-----BEGIN PUBLIC KEY-----
-
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPDGL48RT3HfIfvuAdCE9oUBQ6nM6t+P
+qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
 -----END PUBLIC KEY-----`
 
   function str2ab(str) {
