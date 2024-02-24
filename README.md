@@ -10,7 +10,7 @@
 - configure `event_start_timestamp` (JS timestamp) and `default_minutes_to_arrive` in your inputs
 - update `email_config.yaml` with the desired configuration for your emails
 - run `npm install` in `/src/lambda/dynamoStreamhandler`
-- create a docker container `docker run -it -e SENDGRID_API_KEY="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" -v ~/.ssh:/root/.ssh -v ~/.aws:/root/.aws -v ./:/data devopsinfra/docker-terragrunt:aws-tf-1.3.9-tg-0.44.4 /bin/bash`
+- create a docker container `docker run -it -e SENDGRID_API_KEY="<api key>" -v ~/.ssh:/root/.ssh -v ~/.aws:/root/.aws -v ./:/data devopsinfra/docker-terragrunt:aws-tf-1.3.9-tg-0.44.4 /bin/bash`
 - inside the container, make sure your AWS credentials are loaded correctly (e.g. set `AWS_PROFILE` env var in the container shell or in the command above if not using `default` profile)
 - `cd` into your environment and run `terragrunt apply --terragrunt-source /data//terraform` to deploy your local code to the AWS account
 - execute `src/generate_key.js` and put the public key into `website/index.html`
