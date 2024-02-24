@@ -5,7 +5,7 @@ function handler(event) {
   // base64([username]:[password])
 
   // TODO change this (default is kuberoke:fun4days)
-  var expected = "Basic a3ViZXJva2VjaGkyMzpicmFuZG9zaXN0aGVwbGFjZQ==";
+  var expected = "";
 
   if (authHeaders && authHeaders.value === expected) {
     return event.request;
