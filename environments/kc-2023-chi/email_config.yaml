@@ -7,6 +7,10 @@ confirmation:
 
     When a slot becomes available, we will send out a QR code which will let you enter the venue.
 
+    NOTE: WE WILL ONLY ADMIT PEOPLE WITH A QR CODE. We will not admit friends who tag along with
+    someone with a code, or someone who has registered but not received their code. Space at the venue
+    is limited and we thank you for respecting your fellow attendees and the volunteers working the event.
+
     Once you have received your QR code, you have a limited amount of time to arrive.
 
     If you're late and the venue is full, you can queue at the door or come back at a later time.
@@ -19,6 +23,10 @@ confirmation:
     Thank you for registering for Kuberoke! You have now been added to the guest list.
     <br>
     When a slot becomes available, we will send out a QR code which will let you enter the venue.
+    <br>
+    NOTE: WE WILL ONLY ADMIT PEOPLE WITH A QR CODE. We will not admit friends who tag along with
+    someone with a code, or someone who has registered but not received their code. Space at the venue
+    is limited and we thank you for respecting your fellow attendees and the volunteers working the event.
     <br>
     Once you have received your QR code, you have a limited amount of time to arrive.
     <br>
@@ -36,7 +44,7 @@ invitation:
 
     Attached to this email is the QR code which will let you enter the venue.
 
-    You now have 30 minutes to arrive at Brando's Speakeasy.
+    You now have 45 minutes to arrive at KaraFun.
 
     If you're late and the venue is full, you can queue at the door or come back at a later time.
     We will fill the venue from the queue first, before sending out new QR codes.
@@ -47,7 +55,7 @@ invitation:
     <br>
     Attached to this email is the QR code which will let you enter the venue.
     <br>
-    You now have 30 minutes to arrive at Brando's Speakeasy.
+    You now have 45 minutes to arrive at KaraFun.
     <br>
     If you're late and the venue is full, you can queue at the door or come back at a later time.
     We will fill the venue from the queue first, before sending out new QR codes.
