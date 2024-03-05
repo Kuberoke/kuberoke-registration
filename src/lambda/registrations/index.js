@@ -62,8 +62,6 @@ const handler = async (event, context) => {
     }
   }
 
-  console.log(params)
-
   try {
     if (statusCode == 200) await dynamodb.updateItem(params).promise()
   } catch (e) {
