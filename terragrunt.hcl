@@ -30,7 +30,9 @@ remote_state {
 
   config = {
     encrypt = true
-    bucket = "kuberoke-chi-23-terraform-state"
+    # update this to whatever state bucket you will be using,
+    # as an s3 bucket the name needs to be globally unique
+    bucket = "kuberoke-terraform-state"
     key = "${path_relative_to_include()}/terraform.tfstate"
     region = "${local.env.aws_region}"
     dynamodb_table = "kuberoke-terraform-state-lock"
