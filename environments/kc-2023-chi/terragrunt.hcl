@@ -12,11 +12,11 @@ inputs = merge (
   {
     ticket_codes = {
       invalid = "0"
-      AWS_PARIS_24 = "4"
-      FRIENDS_OF_KUBEROKE = "30"
-      TESTIFYSEC_PARIS_24 = "4"
-      CONTROLPLANE_PARIS_24 = "4"
-      HONEYCOMB_PARIS_24 = "4"
+      AWS_PARIS_24 = "6"
+      FRIENDS_OF_KUBEROKE = "50"
+      TESTIFYSEC_PARIS_24 = "6"
+      CONTROLPLANE_PARIS_24 = "6"
+      HONEYCOMB_PARIS_24 = "6"
     },
     sendgrid_api_key = get_env("SENDGRID_API_KEY")
     event_start_timestamp = "1710964800000"
