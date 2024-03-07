@@ -48,6 +48,13 @@ resource "aws_lambda_permission" "invites" {
   principal     = "apigateway.amazonaws.com"
 }
 
+resource "aws_lambda_permission" "attendance" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.api_attendance_handler.function_name
+  principal     = "apigateway.amazonaws.com"
+}
+
 resource "aws_api_gateway_rest_api" "kuberoke" {
   name           = "kuberoke-${var.environment}"
   api_key_source = "HEADER"
@@ -208,6 +215,85 @@ resource "aws_api_gateway_rest_api" "kuberoke" {
           "x-amazon-apigateway-integration" : {
             "httpMethod" : "POST",
             "uri" : "${aws_lambda_function.api_invites_handler.invoke_arn}",
+            "responses" : {
+              "default" : {
+                "statusCode" : "200"
+              }
+            },
+            "passthroughBehavior" : "when_no_match",
+            "contentHandling" : "CONVERT_TO_TEXT",
+            "type" : "aws_proxy"
+          }
+        },
+        "options" : {
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "headers" : {
+                "Access-Control-Allow-Origin" : {
+                  "schema" : {
+                    "type" : "string"
+                  }
+                },
+                "Access-Control-Allow-Methods" : {
+                  "schema" : {
+                    "type" : "string"
+                  }
+                },
+                "Access-Control-Allow-Headers" : {
+                  "schema" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration" : {
+            "responses" : {
+              "default" : {
+                "statusCode" : "200",
+                "responseParameters" : {
+                  "method.response.header.Access-Control-Allow-Methods" : "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'",
+                  "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin" : "'*'"
+                }
+              }
+            },
+            "requestTemplates" : {
+              "application/json" : "{\"statusCode\": 200}"
+            },
+            "passthroughBehavior" : "when_no_match",
+            "type" : "mock"
+          }
+        }
+      },
+      "/attendance" : {
+        "post" : {
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "security" : [ {
+            "api_key" : [ ]
+          } ],
+          "x-amazon-apigateway-integration" : {
+            "httpMethod" : "POST",
+            "uri" : "${aws_lambda_function.api_attendance_handler.invoke_arn}",
             "responses" : {
               "default" : {
                 "statusCode" : "200"
