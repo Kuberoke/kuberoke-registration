@@ -190,24 +190,31 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
         return
       }
 
-      const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/kuberoke-kc-2023-chi-prod/attendance', {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": API_KEY
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify({
-          email: data.email
-        })
-      })
-
       alert(`${data.name} was invited ${moment(parseInt(data.qrsentat, 10)).fromNow()}, last possible arrival ${moment(parseInt(data.qrsentat, 10)).add(parseInt(data.timetoarrive || 30, 10), 'minutes').fromNow()}.`)
     } catch (error) {
       alert(error)
+    }
+
+    async function markAttendance(decodedText, decodedResult) {
+      try {
+        const data = JSON.parse(decodedText)
+        const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/kuberoke-kc-2023-chi-prod/attendance', {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY
+          },
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
+          body: JSON.stringify({
+            email: data.email
+          })
+        })
+      } catch (error) {
+        alert(error)
+      }
     }
   }
 
@@ -235,6 +242,7 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
     defaultZoomValueIfSupported: 1.5
   }, false)
   html5QrcodeScanner.render(onScanSuccess);  
+  html5QrcodeScanner.render(markAttendance);
 })()
     </script>
   </body>
