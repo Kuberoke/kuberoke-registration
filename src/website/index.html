@@ -194,27 +194,29 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
     } catch (error) {
       alert(error)
     }
+  }
 
-    async function markAttendance(decodedText, decodedResult) {
-      try {
-        const data = JSON.parse(decodedText)
-        const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/kuberoke-kc-2023-chi-prod/attendance', {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY
-          },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: JSON.stringify({
-            email: data.email
-          })
+  async function markAttendance(decodedText, decodedResult) {
+    try {
+      const data = JSON.parse(decodedText)
+      const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/kuberoke-kc-2023-chi-prod/attendance', {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({
+          email: data.email
         })
-      } catch (error) {
-        alert(error)
-      }
+      })
+
+      alert(`${data.name} was marked as attended, welcome!`)
+    } catch (error) {
+      alert(error)
     }
   }
 
