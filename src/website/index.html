@@ -176,27 +176,7 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
         }, pubKey, str2ab(atob(signature)), new TextEncoder("utf-8").encode(data))
   }
 
-  async function onScanSuccess(decodedText, decodedResult) {
-    const data = JSON.parse(decodedText)
-
-    const signature = data.signature
-
-    delete data.signature
-
-    try {
-      const res = await verifySignature(signature, JSON.stringify(data))
-      if (!res) {
-        alert('Signature is invalid.')
-        return
-      }
-
-      alert(`${data.name} was invited ${moment(parseInt(data.qrsentat, 10)).fromNow()}, last possible arrival ${moment(parseInt(data.qrsentat, 10)).add(parseInt(data.timetoarrive || 30, 10), 'minutes').fromNow()}.`)
-    } catch (error) {
-      alert(error)
-    }
-  }
-
-  async function markAttendance(decodedText, decodedResult) {
+  async function markAttendance(email) {
     try {
       const data = JSON.parse(decodedText)
       const response = await fetch('https://a50jc5jboe.execute-api.us-east-1.amazonaws.com/kuberoke-kc-2023-chi-prod/attendance', {
@@ -215,6 +195,28 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
       })
 
       alert(`${data.name} was marked as attended, welcome!`)
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  async function onScanSuccess(decodedText, decodedResult) {
+    const data = JSON.parse(decodedText)
+
+    const signature = data.signature
+
+    delete data.signature
+
+    try {
+      const res = await verifySignature(signature, JSON.stringify(data))
+      if (!res) {
+        alert('Signature is invalid.')
+        return
+      }
+
+      alert(`${data.name} was invited ${moment(parseInt(data.qrsentat, 10)).fromNow()}, last possible arrival ${moment(parseInt(data.qrsentat, 10)).add(parseInt(data.timetoarrive || 30, 10), 'minutes').fromNow()}.`)
+
+      markAttendance(data.email)
     } catch (error) {
       alert(error)
     }
@@ -243,8 +245,7 @@ qFFo5+EviJb2FJc9AQ1nQXTt/mXu9BtO4/tP1Q2GeKTSj6UQWRb64rMCAwEAAQ==
     showZoomSliderIfSupported: 1,
     defaultZoomValueIfSupported: 1.5
   }, false)
-  html5QrcodeScanner.render(onScanSuccess);  
-  html5QrcodeScanner.render(markAttendance);
+  html5QrcodeScanner.render(onScanSuccess);
 })()
     </script>
   </body>
