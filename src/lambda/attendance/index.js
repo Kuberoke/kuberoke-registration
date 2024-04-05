@@ -13,11 +13,11 @@ const handler = async (event) => {
 
   const params = {
     ExpressionAttributeNames: {
-     "#a": "attended"
+     "#attended": "attended"
     }, 
     ExpressionAttributeValues: {
-      ":a": {
-        B: true
+      ":attended": {
+        S: "true"
       },
     }, 
     Key: {
@@ -28,7 +28,7 @@ const handler = async (event) => {
     ConditionExpression: "attribute_exists(email)",
     ReturnValues: "NONE",
     TableName,
-    UpdateExpression: "SET #a = :a"
+    UpdateExpression: "SET #attended = :attended"
   };
 
   try {
