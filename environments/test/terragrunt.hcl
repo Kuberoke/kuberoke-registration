@@ -5,7 +5,7 @@ include "root" {
 
 terraform {
   # TODO: use proper git source URL when released and properly automated
-  # source = "git::git@github.com:foo/lianmakesthings/kuberoke-registration.git//terraform?ref=v1.0.0"
+  # source = "git::git@github.com:Kuberoke/kuberoke-registration.git//terraform?ref=v1.0.0"
   # for now, override this source with your local code using `--terragrunt-source`
   # pointing to the `//terraform` subdirectory in this repo
   source = "somegit"
