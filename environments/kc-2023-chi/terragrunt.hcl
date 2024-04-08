@@ -4,7 +4,7 @@ include "root" {
 }
 
 terraform {
-  source = "git@github.com:foo/kuberoke/kuberoke-registration.git//terraform?ref=v1.0.0"
+  source = "git@github.com/kuberoke/kuberoke-registration.git//terraform?ref=v1.0.0"
 }
 
 inputs = merge (
